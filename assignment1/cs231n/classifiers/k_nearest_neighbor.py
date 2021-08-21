@@ -123,7 +123,12 @@ class KNearestNeighbor(object):
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
         image_size = self.X_train.shape[1]
-        dists = np.sqrt(np.sum(np.square(self.X_train.dot(np.tile(self.X_train, (num_test,1))) - X), axis=2)).T
+
+        Xtr_2 = np.sum(self.X_train ** 2, axis=1)
+        Xte_2 = np.sum(X** 2, axis=1)
+        Xtr_Xte = X.dot(self.X_train.T)
+        dists = np.sqrt(-2 * Xtr_Xte + Xtr_2 + np.expand_dims(Xte_2, axis=1))
+        # dists = np.sqrt(np.sum(np.square(self.X_train.dot(np.tile(self.X_train, (num_test,1))) - X), axis=2)).T
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
